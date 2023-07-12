@@ -1,0 +1,21 @@
+schema: "https://api-mumbai.lens.dev/"
+# 2. Documents - what path are the graphql operations located at?
+# Our docuemnts are located at /src/graphql
+documents: "src/graphql/*.graphql"
+
+# 3 Where do we want to generate the output
+# What plugins do we want to include
+# what optional configuration flags do we want to include?
+generates:
+  src/graphql/generated.ts:
+    plugins:
+      - typescript
+      - typescript-operations
+      - typescript-react-query
+      - fragment-matcher
+    config:
+      dedupeFragments: true
+      fetcher:
+        func: "./auth-fetcher#fetcher"
+        isReactHook: false
+### dedupeFragments özelliği, React Query'nin yapılandırma seçeneklerinden biridir ve varsayılan olarak true olarak ayarlanır. Bu özellik, aynı GraphQL fragmentlarının birden fazla sorguda tekrar kullanılmasını engelleyerek verimliliği artırır.###
