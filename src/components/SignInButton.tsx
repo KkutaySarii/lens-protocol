@@ -2,7 +2,6 @@ import {
   ChainId,
   ConnectWallet,
   useAddress,
-  useChain,
   useNetworkMismatch,
   useSwitchChain,
 } from "@thirdweb-dev/react";
