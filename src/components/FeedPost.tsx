@@ -9,6 +9,7 @@ type Props = {
 };
 
 const FeedPost = ({ publication }: Props) => {
+  console.log(publication);
   return (
     <div className={styles.feedPostWrapper}>
       <div className={styles.feedPostHeader}>

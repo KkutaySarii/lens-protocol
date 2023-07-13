@@ -16,7 +16,6 @@ const ProfilePage = (props: Props) => {
   const router = useRouter();
   const { id } = router.query;
   const { mutateAsync: requestFollow } = useFollow();
-
   const {
     data: profileData,
     error: profileError,
