@@ -50,3 +50,9 @@
   font-size: 16px;
   font-weight: 400;
 }
+
+.feedPostFooter {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+}

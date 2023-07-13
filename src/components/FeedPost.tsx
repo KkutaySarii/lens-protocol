@@ -2,6 +2,7 @@ import React from "react";
 import { ExplorePublicationsQuery } from "../graphql/generated";
 import styles from "../styles/FeedPost.module.css";
 import { MediaRenderer } from "@thirdweb-dev/react";
+import Link from "next/link";
 
 type Props = {
   publication: ExplorePublicationsQuery["explorePublications"]["items"][0];
@@ -18,13 +19,18 @@ const FeedPost = ({ publication }: Props) => {
           alt={publication?.profile?.name || ""}
           className={styles.feedPostHeaderAvatar}
         />
-        <p className={styles.feedPostHeaderName}>
+        <Link
+          href={`/profile/${publication.profile.handle}`}
+          className={styles.feedPostHeaderName}
+        >
           {publication?.profile?.name || publication?.profile?.handle}
-        </p>
+        </Link>
       </div>
       <div className={styles.feedPostContent}>
         <p className={styles.feedPostContentDesc}>
-          {publication?.metadata?.content}
+          {publication?.metadata?.content.length > 100
+            ? publication?.metadata?.content.slice(0, 100) + "..."
+            : publication?.metadata?.content}
         </p>
         {publication?.metadata?.media.length > 0 && (
           <MediaRenderer
@@ -33,6 +39,11 @@ const FeedPost = ({ publication }: Props) => {
             className={styles.feedPostContentMedia}
           />
         )}
+      </div>
+      <div className={styles.feedPostFooter}>
+        <p>{publication.stats.totalAmountOfCollects} Collects</p>
+        <p>{publication.stats.totalAmountOfComments} Comments</p>
+        <p>{publication.stats.totalAmountOfMirrors} Mirrors</p>
       </div>
     </div>
   );
