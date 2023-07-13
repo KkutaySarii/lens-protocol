@@ -2,14 +2,20 @@ import { useRouter } from "next/router";
 import React from "react";
 import styles from "../../styles/ProfilePage.module.css";
 import { useProfileQuery, usePublicationsQuery } from "@/src/graphql/generated";
-import { MediaRenderer } from "@thirdweb-dev/react";
+import { MediaRenderer, Web3Button } from "@thirdweb-dev/react";
 import FeedPost from "@/src/components/FeedPost";
+import {
+  LENS_CONTRACT_ABI,
+  LENS_CONTRACT_ADDRESS,
+} from "@/src/contracts/lens-contract";
+import { useFollow } from "@/src/lib/useFollow";
 
 type Props = {};
 
 const ProfilePage = (props: Props) => {
   const router = useRouter();
   const { id } = router.query;
+  const { mutateAsync: requestFollow } = useFollow();
 
   const {
     data: profileData,
@@ -40,7 +46,11 @@ const ProfilePage = (props: Props) => {
       enabled: !!profileData?.profile?.id,
     }
   );
-  console.log(profileData, publicationData);
+
+  if (profileError || publicationError) {
+    return <div>Something went wrong...</div>;
+  }
+
   return (
     <div className={styles.profileContainer}>
       <div className={styles.profileContentContainer}>
@@ -82,6 +92,14 @@ const ProfilePage = (props: Props) => {
         <p className={styles.followerCount}>
           {profileData?.profile?.stats.totalFollowers} {" Followers"}
         </p>
+
+        <Web3Button
+          contractAddress={LENS_CONTRACT_ADDRESS}
+          contractAbi={LENS_CONTRACT_ABI}
+          action={async () => await requestFollow(profileData?.profile?.id)}
+        >
+          Follow
+        </Web3Button>
 
         <div className={styles.publicationsContainer}>
           {publicationLoading ? (

@@ -9,7 +9,7 @@ export default function Home() {
   const { data, isLoading, isError } = useExplorePublicationsQuery(
     {
       request: {
-        sortCriteria: PublicationSortCriteria.TopCollected,
+        sortCriteria: PublicationSortCriteria.Latest,
       },
     },
     {

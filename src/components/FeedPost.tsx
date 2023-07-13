@@ -9,13 +9,12 @@ type Props = {
 };
 
 const FeedPost = ({ publication }: Props) => {
-  console.log(publication);
   return (
     <div className={styles.feedPostWrapper}>
       <div className={styles.feedPostHeader}>
         <MediaRenderer
           // @ts-ignore
-          src={publication?.profile?.picture?.original?.url || ""}
+          src={publication?.profile?.picture?.original?.url}
           alt={publication?.profile?.name || ""}
           className={styles.feedPostHeaderAvatar}
         />
@@ -32,13 +31,14 @@ const FeedPost = ({ publication }: Props) => {
             ? publication?.metadata?.content.slice(0, 100) + "..."
             : publication?.metadata?.content}
         </p>
-        {publication?.metadata?.media.length > 0 && (
+        {publication?.metadata?.media.length > 0 ? (
           <MediaRenderer
+            // @ts-ignore
             src={publication?.metadata?.media[0]?.original?.url}
             alt={publication?.metadata?.content}
             className={styles.feedPostContentMedia}
           />
-        )}
+        ) : null}
       </div>
       <div className={styles.feedPostFooter}>
         <p>{publication.stats.totalAmountOfCollects} Collects</p>
